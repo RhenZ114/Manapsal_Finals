@@ -9,6 +9,8 @@ export default function ProductList({ products, updateQuantity, toggleCart, addP
 
   const filtered = category === 'All' ? products : products.filter(p => p.category === category)
 
+  const overallTotal = products.reduce((sum, p) => sum + (Number(p.price) * Number(p.quantity || 0)), 0)
+
   return (
     <div className="container">
       <aside className="sidebar">
@@ -19,7 +21,16 @@ export default function ProductList({ products, updateQuantity, toggleCart, addP
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </label>
+
         <hr />
+
+        <div>
+          <h3>Overall Total</h3>
+          <p><strong>${overallTotal.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</strong></p>
+        </div>
+
+        <hr />
+
         <h2>Add New Product</h2>
         <AddProductForm onAdd={addProduct} />
       </aside>
